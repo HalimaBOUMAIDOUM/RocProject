@@ -1,0 +1,86 @@
+<?php 
+include '../includes/DbOperations.php';
+$server = 'http://' . $_SERVER['SERVER_NAME'] . '/projet/';
+
+require_once '../includes/DbOperations.php';
+
+$user_logged = false;
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NutriSuivi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+    <link rel="stylesheet" href="<?php echo $server; ?>css/style.css" >
+ 
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <style type="text/css">
+        body{ font: 14px sans-serif; }
+        .wrapper{ width: 350px; padding: 20px; }
+    </style>
+</head>
+
+<script>
+function updateIsPresentForEtudiant() {
+    // Mettez à jour le chemin vers le fichier PHP si nécessaire
+    window.location.href = '../V1/UpdatePresence.php';
+}
+</script>
+<body>
+<header class="d-flex w-100">
+    <nav class="navbar navbar-expand-lg w-100 bg-light">
+        <div class="navbar-collapse collapse justify-content-between">
+            <ul class="navbar-nav" id="navbar">
+                <li class="nav-item active">
+                    <a class="nav-link text-dark" href="<?php echo $server; ?>backend/index.php"><i class="fa fa-building text-dark"></i> Accueil</a>
+                </li>
+                
+                <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+                    $user_logged = true;
+                    if ($_SESSION['role'] == 'admin') { ?>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="<?php echo $server; ?>frontend/components/produit/view.php">Produits</a>
+                        </li>
+                    
+                <?php } 
+                } ?>
+
+
+            </ul>
+            <ul class="navbar-nav">
+                <div class="d-flex my-2 my-lg-0">
+                    <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button id="searchBtn" class="btn btn-outline-light m-2 my-sm-0" type="button">Search</button>
+                    <button id="updateBtn" class="btn btn-outline-light m-2 my-sm-0" type="button" onclick="updateIsPresentForEtudiant()">Update</button>
+                </div>
+            </ul>
+            <ul class="navbar-nav">
+                <?php 
+                if ($user_logged) { ?>
+                    <li class="nav-item mr-sm-2">
+                        <a class="nav-link btn btn-dark text-white" href="<?php echo $server; ?>backend/logout.php"><span><i class="fa fa-sign-out text-white"></i></span>Sign Out</a>
+                    </li>
+                <?php } else { ?>
+                    <li class="nav-item mr-sm-2">
+                        <a class="nav-link btn btn-primary text-white" href="<?php echo $server; ?>backend/login.php"><span><i class="fa fa-sign-in text-white"></i></span> Sign In</a>
+                    </li>
+                <?php } ?>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div class="container-fluid page-container">
+    <div class="main-content">
+    </div>
+</div>
+</body>
+</html>
